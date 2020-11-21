@@ -11,9 +11,9 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "rev.1.5"
+version = "1.5.1"
 group = "by.jackraidenph.bcrf"
-archivesBaseName = "buildcraft-fe"
+archivesBaseName = "buildcraft-rf"
 
 compileJava.options.encoding = "UTF-8"
 idea.module.inheritOutputDirs = true
