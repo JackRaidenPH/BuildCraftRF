@@ -1,11 +1,8 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url = "https://files.minecraftforge.net/maven" }
-    }
-    repositories {
         maven {
-            url = "https://www.cursemaven.com"
+            url = "https://files.minecraftforge.net/maven"
         }
     }
     dependencies {
@@ -39,9 +36,15 @@ repositories {
     }
 }
 
+repositories {
+    maven {
+        url = "https://www.cursemaven.com"
+    }
+}
+
 dependencies {
-    compile 'curse.maven:fermino:2894768'
-    compile 'curse.maven:bccore:3072640'
+    compile 'curse.maven:fermion-core:2894768'
+    compile 'curse.maven:buildcraft-core:3072640'
 }
 
 processResources {
@@ -51,7 +54,7 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
 
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
 
     from(sourceSets.main.resources.srcDirs) {
