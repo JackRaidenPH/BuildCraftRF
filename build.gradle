@@ -40,7 +40,6 @@ repositories {
 }
 
 dependencies {
-	compile 'net.thesilkminer:fermion:1.0.2'
     compile 'curse.maven:fermino:2894768'
     compile 'curse.maven:bccore:3072640'
 }
