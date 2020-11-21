@@ -11,7 +11,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.5.1"
+version = "1.5.2"
 group = "by.jackraidenph.bcrf"
 archivesBaseName = "buildcraft-rf"
 
