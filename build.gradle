@@ -3,6 +3,11 @@ buildscript {
         jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
     }
+    repositories {
+        maven {
+            url = "https://www.cursemaven.com"
+        }
+    }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
@@ -36,6 +41,8 @@ repositories {
 
 dependencies {
 	compile 'net.thesilkminer:fermion:1.0.2'
+    compile 'curse.maven:fermino:2894768'
+    compile 'curse.maven:bccore:3072640'
 }
 
 processResources {
