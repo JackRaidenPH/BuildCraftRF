@@ -25,16 +25,9 @@ public class BuildCraftRF {
     public static final String VERSION = "rev.1.5";
     public static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(MODID, "ForgeEnergyCapability");
 
-    public static final ResourceLocation FILLER_RECIPE_KEY = new ResourceLocation(MODID, "bc_filler");
-    public static final ResourceLocation BUILDER_RECIPE_KEY = new ResourceLocation(MODID, "bc_builder");
-    public static final ResourceLocation LIBRARY_RECIPE_KEY = new ResourceLocation(MODID, "bc_library");
-    public static final ResourceLocation REPLACER_RECIPE_KEY = new ResourceLocation(MODID, "bc_replacer");
-    public static final ResourceLocation ARCHITECT_RECIPE_KEY = new ResourceLocation(MODID, "bc_architect");
-
     public static Configuration CONFIG;
     public static Logger LOGGER;
     private double ratio;
-    private boolean areExtraRecipesEnabled;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

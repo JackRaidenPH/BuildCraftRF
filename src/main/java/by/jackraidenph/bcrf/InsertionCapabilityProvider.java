@@ -13,10 +13,10 @@ import java.lang.reflect.Field;
 
 public class InsertionCapabilityProvider implements ICapabilityProvider {
 
-    Field f;
-    TileEntity te;
+    private Field f;
+    private TileEntity te;
 
-    public InsertionCapabilityProvider(Field batteryField, TileEntity te) {
+    protected InsertionCapabilityProvider(Field batteryField, TileEntity te) {
         f = batteryField;
         this.te = te;
     }
