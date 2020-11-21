@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bcrf",
+  "name": "BuildCraftRF",
+  "description": "A pack of transformers that patches BuildCraft to bring back Forge Energy support to it.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["JackRaidenPH"],
+  "credits": "JackRaidenPH as an author, TheSilkMiner for providing FermionLib, BuildCraft DEV team for developing BuildCraft, FML DEV team for developing FML",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
