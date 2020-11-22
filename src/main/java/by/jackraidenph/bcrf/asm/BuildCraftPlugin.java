@@ -23,7 +23,7 @@ public class BuildCraftPlugin extends AbstractLaunchPlugin {
                 .addAuthor("JackRaidenPH")
                 .setCredits("JackRaidenPH, BuildCraft DEV Team")
                 .setDescription("Modifies BuildCraft classes to bring back ForgeEnergy support")
-                .setVersion("1.5.2")
+                .setVersion("1.0.0")
                 .build();
     }
 

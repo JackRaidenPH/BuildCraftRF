@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 public class BuildCraftRF {
     public static final String MODID = "bcrf";
     public static final String NAME = "BuildCraftRF";
-    public static final String VERSION = "1.5.2";
+    public static final String VERSION = "1.5.3";
     public static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(MODID, "ForgeEnergyCapability");
 
     public static Configuration CONFIG;
@@ -87,7 +87,9 @@ public class BuildCraftRF {
             if (f.getType() == clazz)
                 return f;
 
-        return findField(obj.getSuperclass(), clazz);
+        if (obj.getSuperclass() != null)
+            return findField(obj.getSuperclass(), clazz);
+        else return null;
     }
 
     @SubscribeEvent
