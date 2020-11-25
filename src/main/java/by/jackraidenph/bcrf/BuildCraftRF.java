@@ -9,11 +9,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
@@ -68,19 +68,17 @@ public class BuildCraftRF {
         }
     }
 
-
-    @SubscribeEvent
-    public void onWorldLoad(PlayerEvent.PlayerLoggedInEvent e) {
-        for (TileEntity te : e.player.world.loadedTileEntityList)
-            trySetValues(te);
-    }
-
     @SubscribeEvent
     public void onBlockPlaced(BlockEvent.EntityPlaceEvent e) {
         if (e.getPlacedBlock().getBlock().hasTileEntity(e.getPlacedBlock())) {
             TileEntity te = e.getWorld().getTileEntity(e.getPos());
             trySetValues(te);
         }
+    }
+
+    @SubscribeEvent
+    public void test(ChunkEvent.Load e) {
+        e.getChunk().getTileEntityMap().forEach((x, y) -> trySetValues(y));
     }
 
     private Field findField(Class obj, Class clazz) {
