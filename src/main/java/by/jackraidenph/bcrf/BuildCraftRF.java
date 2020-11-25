@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 @Mod(modid = BuildCraftRF.MODID, name = BuildCraftRF.NAME, version = BuildCraftRF.VERSION, dependencies = "required-after:buildcraftcore@[7.99.12,);required-after:fermion@[1.0.2,);")
@@ -32,7 +33,7 @@ public class BuildCraftRF {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
-        CONFIG = new Configuration(event.getSuggestedConfigurationFile());
+        CONFIG = new Configuration(new File(event.getSuggestedConfigurationFile().getAbsolutePath().replace(MODID, "buildcraft-rf")));
         CONFIG.load();
         ratio = CONFIG.getFloat("ratio", "general", 15.0f, 1.0f, Float.MAX_VALUE, "Sets the conversion ratio for BuildCraft machines.");
         CONFIG.save();
