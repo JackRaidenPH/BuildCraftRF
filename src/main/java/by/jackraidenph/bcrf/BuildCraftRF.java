@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
@@ -45,7 +46,6 @@ public class BuildCraftRF {
             Field f = findField(te.getClass(), MjBattery.class);
             if (f != null) {
                 try {
-
                     f.setAccessible(true);
                     Class batteryClazz = f.get(te).getClass();
                     Field[] fieldsList = batteryClazz.getDeclaredFields();
@@ -77,7 +77,7 @@ public class BuildCraftRF {
     }
 
     @SubscribeEvent
-    public void test(ChunkEvent.Load e) {
+    public void onChunkLoad(ChunkEvent.Load e) {
         e.getChunk().getTileEntityMap().forEach((x, y) -> trySetValues(y));
     }
 
