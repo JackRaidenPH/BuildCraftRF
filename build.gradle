@@ -43,8 +43,8 @@ repositories {
 }
 
 dependencies {
-    compile 'curse.maven:fermion-core:2894768'
-    compile 'curse.maven:buildcraft-core:3072640'
+    compile 'curse.maven:fermion-core-345538:2894768'
+    compile 'curse.maven:buildcraft-core-231305:3072640'
 }
 
 processResources {
