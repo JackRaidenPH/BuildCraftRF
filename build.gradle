@@ -29,10 +29,10 @@ fancyGradle {
 }
 
 
-version = '1.5.4'
+version = '1.5.5'
 String modid = 'bcrf'
 group = "dev.jackraidenph.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'BuildCraftRF-' + version
+archivesBaseName = 'BuildCraftRF'
 
 compileJava.options.encoding = "UTF-8"
 idea.module.inheritOutputDirs = true
