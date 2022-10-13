@@ -1,7 +1,7 @@
-package by.jackraidenph.bcrf.asm;
+package dev.jackraidenph.bcrf.asm;
 
-import by.jackraidenph.bcrf.asm.transformer.MjBatteryReceiverTransformer;
-import by.jackraidenph.bcrf.asm.transformer.MjBatteryTransformer;
+import dev.jackraidenph.bcrf.asm.transformer.MjBatteryReceiverTransformer;
+import dev.jackraidenph.bcrf.asm.transformer.MjBatteryTransformer;
 import com.google.common.collect.ImmutableSet;
 import net.thesilkminer.mc.fermion.asm.api.PluginMetadata;
 import net.thesilkminer.mc.fermion.asm.prefab.AbstractLaunchPlugin;

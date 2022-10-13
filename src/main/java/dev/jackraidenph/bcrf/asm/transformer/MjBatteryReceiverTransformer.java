@@ -1,4 +1,4 @@
-package by.jackraidenph.bcrf.asm.transformer;
+package dev.jackraidenph.bcrf.asm.transformer;
 
 import net.thesilkminer.mc.fermion.asm.api.LaunchPlugin;
 import net.thesilkminer.mc.fermion.asm.api.descriptor.ClassDescriptor;

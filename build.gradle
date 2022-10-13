@@ -1,63 +1,119 @@
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            url = "https://files.minecraftforge.net/maven"
-        }
+        mavenCentral()
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url 'https://gitlab.com/api/v4/projects/26758973/packages/maven' }
+        //maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'wtf.gofancy.fancygradle', name: 'wtf.gofancy.fancygradle.gradle.plugin', version: '1.1.2-0'
+        //classpath 'org.parchmentmc:librarian:1.+'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 
-version = "1.5.4"
-group = "by.jackraidenph.bcrf"
-archivesBaseName = "buildcraft-rf"
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'wtf.gofancy.fancygradle'
+
+fancyGradle {
+    patches {
+        resources
+        coremods
+        codeChickenLib
+        asm
+        mergetool
+    }
+}
+
+
+version = '1.5.4'
+String modid = 'bcrf'
+group = "dev.jackraidenph.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'BuildCraftRF-' + version
 
 compileJava.options.encoding = "UTF-8"
 idea.module.inheritOutputDirs = true
 
-sourceCompatibility = targetCompatibility = '1.8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
-    version = "1.12.2-14.23.5.2847"
-    runDir = "run"
+    mappings channel: 'snapshot', version: '20171003-1.12'
 
-    mappings = "snapshot_20171003"
-}
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
-repositories {
-    flatDir {
-        dirs 'libs'
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.console.level', 'info'
+
+            mods {
+                bcrf {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.console.level', 'info'
+
+            mods {
+                bcrf {
+                    source sourceSets.main
+                }
+            }
+        }
     }
 }
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
         url = "https://www.cursemaven.com"
     }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
-    compile 'curse.maven:fermion-core-345538:2894768'
-    compile 'curse.maven:buildcraft-core-231305:3072640'
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
+    implementation fg.deobf("curse.maven:fermion-core-345538:3186519")
+    implementation fg.deobf("curse.maven:buildcraft-core-231305:3072640")
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        expand 'version': project.version, 'mcversion': project.minecraft.version
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : archivesBaseName,
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : archivesBaseName,
+                "Implementation-Version"  : version,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+        ])
     }
+}
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
     }
 }

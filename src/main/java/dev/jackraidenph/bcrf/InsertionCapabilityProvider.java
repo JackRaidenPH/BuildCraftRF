@@ -1,4 +1,4 @@
-package by.jackraidenph.bcrf;
+package dev.jackraidenph.bcrf;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

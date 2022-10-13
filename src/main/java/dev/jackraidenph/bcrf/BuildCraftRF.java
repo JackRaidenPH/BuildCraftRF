@@ -1,4 +1,4 @@
-package by.jackraidenph.bcrf;
+package dev.jackraidenph.bcrf;
 
 import buildcraft.api.mj.MjAPI;
 import buildcraft.api.mj.MjBattery;
