@@ -4,7 +4,7 @@
   "name": "BuildCraftRF",
   "description": "A pack of transformers that patches BuildCraft to bring back ForgeEnergy/RedstoneFlux support to it.",
   "version": "2.1.0",
-  "mcversion": "1.12.x",
+  "mcversion": "1.12.X",
   "url": "https://www.curseforge.com/minecraft/mc-mods/buildcraft-rf",
   "updateUrl": "",
   "authorList": ["JackRaidenPH"],

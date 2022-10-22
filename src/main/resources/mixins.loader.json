@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.jackraidenph.bcrf.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(INIT)",
+  "mixins": [
+    "MixinLoader"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  },
+  "minVersion": "0.8"
+}

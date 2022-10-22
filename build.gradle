@@ -3,6 +3,7 @@ buildscript {
         mavenCentral()
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://gitlab.com/api/v4/projects/26758973/packages/maven' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
         //maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
@@ -30,7 +31,6 @@ fancyGradle {
     }
 }
 
-
 version = '2.1.0'
 String modid = 'bcrf'
 group = "dev.jackraidenph.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -55,7 +55,12 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
 
-            arg "-mixin.config=mixins.${modid}.json"
+            args = [
+                    "-mixin.config=mixins.${modid}.json",
+                    "-Dfml.coreMods.load=dev.jackraidenph.bcrf.core.BCRFLoadingPlugin",
+                    "-Dmixin.hotSwap=true",
+                    "-Dmixin.checks.interfaces=true"
+            ]
 
             mods {
                 bcrf {
@@ -69,7 +74,12 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
 
-            arg "-mixin.config=mixins.${modid}.json"
+            args = [
+                    "-mixin.config=mixins.${modid}.json",
+                    "-Dfml.coreMods.load=noobanidus.mods.erebusfix.core.EFLoadingPlugin",
+                    "-Dmixin.hotSwap=true",
+                    "-Dmixin.checks.interfaces=true"
+            ]
 
             mods {
                 bcrf {
@@ -84,14 +94,13 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven { url = "https://www.cursemaven.com" }
-    maven { url = 'https://maven.cleanroommc.com' }
     flatDir { dirs 'libs' }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
-    implementation fg.deobf('zone.rong:mixinbooter:5.0')
-    implementation fg.deobf('curse.maven:buildcraft-core-231305:3072640')
+    implementation fg.deobf('curse.maven:buildcraft-core-231305:3204464')
+    compileOnly 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testAnnotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

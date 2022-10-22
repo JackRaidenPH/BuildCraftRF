@@ -20,8 +20,14 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.lang.reflect.Field;
 
-@Mod(modid = BuildCraftRF.MODID, name = BuildCraftRF.NAME, version = BuildCraftRF.VERSION, dependencies = "required-after:buildcraftcore@[7.99.12,);required-after:mixinbooter@[5.0,);")
+@Mod.EventBusSubscriber
+@Mod(modid = BuildCraftRF.MODID, name = BuildCraftRF.NAME, version = BuildCraftRF.VERSION, dependencies = "required-after:buildcraftcore")
 public class BuildCraftRF {
+
+    @SuppressWarnings("unused")
+    @Mod.Instance(BuildCraftRF.MODID)
+    public static BuildCraftRF instance;
+
     public static final String MODID = "bcrf";
     public static final String NAME = "BuildCraftRF";
     public static final String VERSION = "2.1.0";
@@ -30,6 +36,8 @@ public class BuildCraftRF {
     public static Configuration CONFIG;
     public static Logger LOGGER_MOD;
     private float ratio;
+
+    public BuildCraftRF() {}
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
