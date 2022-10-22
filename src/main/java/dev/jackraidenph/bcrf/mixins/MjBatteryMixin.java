@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(MjBattery.class)
 public class MjBatteryMixin implements IEnergyStorage {
 
-    @Shadow @Final private long microJoules;
+    @Shadow private long microJoules;
     @Shadow @Final private long capacity;
-    private float fromMJ = 1_000_00L / 15F;
-    private float toMJ = 15F / 1_000_00L;
+    private float toMJ = 1_000_00L / 15F;
+    private float fromMJ = 15F / 1_000_00L;
 
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {

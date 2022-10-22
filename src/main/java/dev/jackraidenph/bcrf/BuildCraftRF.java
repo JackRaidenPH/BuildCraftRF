@@ -2,6 +2,7 @@ package dev.jackraidenph.bcrf;
 
 import buildcraft.api.mj.MjAPI;
 import buildcraft.api.mj.MjBattery;
+import buildcraft.lib.engine.TileEngineBase_BC8;
 import buildcraft.lib.tile.TileBC_Neptune;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -41,24 +42,38 @@ public class BuildCraftRF {
     }
 
     private void trySetValues(TileEntity te) {
-        if (te instanceof TileBC_Neptune) {
-            Field f = findField(te.getClass(), MjBattery.class);
-            if (f != null) {
-                try {
-                    f.setAccessible(true);
-                    Class batteryClazz = f.get(te).getClass();
+        try {
+            if (te instanceof TileBC_Neptune) {
+                Field toSet;
 
-                    Field toSet = batteryClazz.getDeclaredField("toMJ");
+                if (te instanceof TileEngineBase_BC8) {
+                    toSet = TileEngineBase_BC8.class.getDeclaredField("toMJ");
+                    toSet.setAccessible(true);
+                    toSet.set(te, MjAPI.MJ / ratio);
+
+                    toSet = TileEngineBase_BC8.class.getDeclaredField("fromMJ");
+                    toSet.setAccessible(true);
+                    toSet.set(te, ratio / MjAPI.MJ);
+
+                    return;
+                }
+
+                Field f = findField(te.getClass(), MjBattery.class);
+                if (f != null) {
+
+                    f.setAccessible(true);
+
+                    toSet = MjBattery.class.getDeclaredField("toMJ");
                     toSet.setAccessible(true);
                     toSet.set(f.get(te), MjAPI.MJ / ratio);
 
-                    toSet = batteryClazz.getDeclaredField("fromMJ");
+                    toSet = MjBattery.class.getDeclaredField("fromMJ");
                     toSet.setAccessible(true);
                     toSet.set(f.get(te), ratio / MjAPI.MJ);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

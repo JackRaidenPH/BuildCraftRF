@@ -3,7 +3,8 @@
   "package": "dev.jackraidenph.bcrf.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MjBatteryMixin"
+    "MjBatteryMixin",
+    "EngineMixin"
   ],
   "client": [
   ],
