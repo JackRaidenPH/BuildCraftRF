@@ -2,6 +2,7 @@
   "required": true,
   "package": "dev.jackraidenph.bcrf.mixins",
   "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
   "mixins": [
     "MjBatteryMixin",
     "EngineMixin"
@@ -9,7 +10,7 @@
   "client": [
   ],
   "injectors": {
-    "defaultRequire": 1
+    "maxShiftBy": 10
   },
   "minVersion": "0.8"
 }

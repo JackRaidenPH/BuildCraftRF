@@ -57,11 +57,11 @@ public class MixinLoader {
             processorField.setAccessible(true);
             Object processor = processorField.get(transformer);
 
-            Method selectConfigsMethod = Class.forName("MixinProcessor").getDeclaredMethod("selectConfigs", MixinEnvironment.class);
+            Method selectConfigsMethod = processor.getClass().getDeclaredMethod("selectConfigs", MixinEnvironment.class);
             selectConfigsMethod.setAccessible(true);
             selectConfigsMethod.invoke(processor, MixinEnvironment.getCurrentEnvironment());
 
-            Method prepareConfigsMethod = Class.forName("MixinProcessor").getDeclaredMethod("prepareConfigs", MixinEnvironment.class);
+            Method prepareConfigsMethod = processor.getClass().getDeclaredMethod("prepareConfigs", MixinEnvironment.class);
             prepareConfigsMethod.setAccessible(true);
             prepareConfigsMethod.invoke(processor, MixinEnvironment.getCurrentEnvironment());
         } catch (ReflectiveOperationException e) {

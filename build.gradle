@@ -55,7 +55,7 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
 
-            args = [
+            def args = [
                     "-mixin.config=mixins.${modid}.json",
                     "-Dfml.coreMods.load=dev.jackraidenph.bcrf.core.BCRFLoadingPlugin",
                     "-Dmixin.hotSwap=true",
@@ -76,7 +76,7 @@ minecraft {
 
             args = [
                     "-mixin.config=mixins.${modid}.json",
-                    "-Dfml.coreMods.load=noobanidus.mods.erebusfix.core.EFLoadingPlugin",
+                    "-Dfml.coreMods.load=dev.jackraidenph.bcrf.core.BCRFLoadingPlugin",
                     "-Dmixin.hotSwap=true",
                     "-Dmixin.checks.interfaces=true"
             ]
@@ -100,7 +100,7 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
     implementation fg.deobf('curse.maven:buildcraft-core-231305:3204464')
-    compileOnly 'org.spongepowered:mixin:0.8.5'
+    implementation 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testAnnotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
