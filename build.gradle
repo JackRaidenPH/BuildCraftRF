@@ -1,13 +1,14 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url 'https://gitlab.com/api/v4/projects/26758973/packages/maven' }
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://gitlab.com/api/v4/projects/26758973/packages/maven' }
         //maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath group: 'wtf.gofancy.fancygradle', name: 'wtf.gofancy.fancygradle.gradle.plugin', version: '1.1.2-0'
+        classpath 'org.spongepowered:mixingradle:0.7.+'
         //classpath 'org.parchmentmc:librarian:1.+'
     }
 }
@@ -17,6 +18,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'wtf.gofancy.fancygradle'
+apply plugin: 'org.spongepowered.mixin'
 
 fancyGradle {
     patches {
@@ -29,7 +31,7 @@ fancyGradle {
 }
 
 
-version = '1.5.5'
+version = '2.0.0'
 String modid = 'bcrf'
 group = "dev.jackraidenph.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'BuildCraftRF'
@@ -53,6 +55,8 @@ minecraft {
 
             property 'forge.logging.console.level', 'info'
 
+            arg "-mixin.config=mixins.${modid}.json"
+
             mods {
                 bcrf {
                     source sourceSets.main
@@ -64,6 +68,8 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'forge.logging.console.level', 'info'
+
+            arg "-mixin.config=mixins.${modid}.json"
 
             mods {
                 bcrf {
@@ -77,18 +83,21 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    maven {
-        url = "https://www.cursemaven.com"
-    }
-    flatDir {
-        dirs 'libs'
-    }
+    maven { url = "https://www.cursemaven.com" }
+    maven { url = 'https://maven.cleanroommc.com' }
+    flatDir { dirs 'libs' }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
-    implementation fg.deobf("curse.maven:fermion-core-345538:3186519")
-    implementation fg.deobf("curse.maven:buildcraft-core-231305:3072640")
+    implementation fg.deobf('zone.rong:mixinbooter:5.0')
+    implementation fg.deobf('curse.maven:buildcraft-core-231305:3072640')
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    testAnnotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+mixin {
+    add sourceSets.main, "mixin.${modid}.refmap.json"
 }
 
 jar {
@@ -99,6 +108,8 @@ jar {
                 "Implementation-Title"    : archivesBaseName,
                 "Implementation-Version"  : version,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                "MixinConfigs": "mixins.${modid}.json",
         ])
     }
 }

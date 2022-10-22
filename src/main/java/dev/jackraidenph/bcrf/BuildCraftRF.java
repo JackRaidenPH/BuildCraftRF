@@ -19,23 +19,23 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.lang.reflect.Field;
 
-@Mod(modid = BuildCraftRF.MODID, name = BuildCraftRF.NAME, version = BuildCraftRF.VERSION, dependencies = "required-after:buildcraftcore@[7.99.12,);required-after:fermion@[1.0.2,);")
+@Mod(modid = BuildCraftRF.MODID, name = BuildCraftRF.NAME, version = BuildCraftRF.VERSION, dependencies = "required-after:buildcraftcore@[7.99.12,);required-after:mixinbooter@[5.0,);")
 public class BuildCraftRF {
     public static final String MODID = "bcrf";
     public static final String NAME = "BuildCraftRF";
-    public static final String VERSION = "1.5.4";
+    public static final String VERSION = "2.0.0";
     public static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(MODID, "ForgeEnergyCapability");
 
     public static Configuration CONFIG;
     public static Logger LOGGER_MOD;
-    private double ratio;
+    private float ratio;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
         CONFIG = new Configuration(new File(event.getSuggestedConfigurationFile().getAbsolutePath().replace(MODID, "buildcraft-rf")));
         CONFIG.load();
-        ratio = CONFIG.getFloat("ratio", "general", 15.0f, 1.0f, Float.MAX_VALUE, "Sets the conversion ratio for BuildCraft machines.");
+        ratio = CONFIG.getFloat("ratio", "general", 15F, 1F, Float.MAX_VALUE, "Sets the conversion ratio for BuildCraft machines.");
         CONFIG.save();
         LOGGER_MOD = event.getModLog();
     }
@@ -47,20 +47,15 @@ public class BuildCraftRF {
                 try {
                     f.setAccessible(true);
                     Class batteryClazz = f.get(te).getClass();
-                    Field[] fieldsList = batteryClazz.getDeclaredFields();
 
-                    for (Field x : fieldsList) {
-                        if (x.getName().trim().equals("toMJ")) {
-                            x.setAccessible(true);
-                            x.set(f.get(te), MjAPI.MJ / ratio);
-                        }
-                        if (x.getName().trim().equals("fromMJ")) {
-                            x.setAccessible(true);
-                            x.set(f.get(te), ratio / MjAPI.MJ);
-                        }
-                    }
+                    Field toSet = batteryClazz.getDeclaredField("toMJ");
+                    toSet.setAccessible(true);
+                    toSet.set(f.get(te), MjAPI.MJ / ratio);
 
-                } catch (IllegalAccessException ex) {
+                    toSet = batteryClazz.getDeclaredField("fromMJ");
+                    toSet.setAccessible(true);
+                    toSet.set(f.get(te), ratio / MjAPI.MJ);
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }

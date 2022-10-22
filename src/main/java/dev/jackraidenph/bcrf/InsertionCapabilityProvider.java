@@ -34,7 +34,7 @@ public class InsertionCapabilityProvider implements ICapabilityProvider {
                 f.setAccessible(true);
                 return CapabilityEnergy.ENERGY.cast((IEnergyStorage) f.get(te));
             } catch (IllegalAccessException ex) {
-                BuildCraftRF.LOGGER_MOD.info("Failed to attach capability{} to object{}", this, te.getClass().getSimpleName());
+                BuildCraftRF.LOGGER_MOD.info("Failed to attach capability {} to object {}", this, te.getClass().getSimpleName());
                 ex.printStackTrace();
             }
         }
