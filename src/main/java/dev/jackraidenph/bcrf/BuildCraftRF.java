@@ -24,7 +24,7 @@ import java.lang.reflect.Field;
 public class BuildCraftRF {
     public static final String MODID = "bcrf";
     public static final String NAME = "BuildCraftRF";
-    public static final String VERSION = "2.1.0";
+    public static final String VERSION = "2.1.1";
     public static final ResourceLocation CAPABILITY_KEY = new ResourceLocation(MODID, "ForgeEnergyCapability");
 
     public static Configuration CONFIG;
