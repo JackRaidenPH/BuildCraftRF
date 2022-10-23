@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TileEngineBase_BC8.class)
-public abstract class EngineMixin {
+public abstract class EngineMixin implements IEnergyStorage  {
 
     private float toMJ = 1_000_00L / 15F;
     private float fromMJ = 15F / 1_000_00L;
@@ -28,14 +28,15 @@ public abstract class EngineMixin {
     @Shadow
     public abstract EnumFacing getCurrentFacing();
 
-    @Shadow
-    public abstract long getEnergyStored();
-
     @Shadow public abstract long maxPowerExtracted();
 
     @Shadow protected abstract long getPowerToExtract(boolean doExtract);
 
     @Shadow public abstract long extractPower(long min, long max, boolean doExtract);
+
+    @Shadow protected long power;
+
+    @Shadow public abstract long getMaxPower();
 
     @Inject(at = @At("HEAD"), method = "getPowerToExtract", remap = false, cancellable = true)
     public void getPowerToExtractInjector(boolean doExtract, CallbackInfoReturnable<Long> cir) {
@@ -43,7 +44,7 @@ public abstract class EngineMixin {
         if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, getCurrentFacing().getOpposite())) {
             IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, getCurrentFacing().getOpposite());
             if(storage != null) {
-                long toExtract = (long) Math.min(maxPowerExtracted(), Math.min(getEnergyStored(), (storage.getMaxEnergyStored() - storage.getEnergyStored()) * toMJ));
+                long toExtract = (long) Math.min(maxPowerExtracted(), Math.min(power, (storage.getMaxEnergyStored() - storage.getEnergyStored()) * toMJ));
                 cir.setReturnValue(extractPower(0L, toExtract, doExtract));
             }
         }
@@ -70,5 +71,41 @@ public abstract class EngineMixin {
 
         if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, dir.getOpposite()))
             cir.setReturnValue(true);
+    }
+
+    @Override
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+        if (!canExtract())
+            return 0;
+
+        long energyExtracted = Math.round(Math.min(power, Math.min(2048, maxExtract) * toMJ));
+        if (!simulate)
+            power -= energyExtracted;
+        return Math.round(energyExtracted * fromMJ);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return (int) (power * fromMJ);
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return (int) (getMaxPower() * fromMJ);
+    }
+
+    @Override
+    public boolean canExtract() {
+        return power > 0;
+    }
+
+    @Override
+    public boolean canReceive() {
+        return false;
     }
 }

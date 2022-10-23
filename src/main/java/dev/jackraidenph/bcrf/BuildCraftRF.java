@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.lang.reflect.Field;
 
-@Mod(modid = BuildCraftRF.MODID, name = BuildCraftRF.NAME, version = BuildCraftRF.VERSION, dependencies = "required-after:buildcraftcore@[7.99.12,);required-after:mixinbooter@[5.0,);")
+@Mod(modid = BuildCraftRF.MODID, name = BuildCraftRF.NAME, version = BuildCraftRF.VERSION, dependencies = "required-after:mixinbooter@[5.0,);")
 public class BuildCraftRF {
     public static final String MODID = "bcrf";
     public static final String NAME = "BuildCraftRF";
@@ -101,12 +101,17 @@ public class BuildCraftRF {
     }
 
     @SubscribeEvent
-    public void onCapability(AttachCapabilitiesEvent e) {
-        if (e.getObject() instanceof TileBC_Neptune & !(e.getCapabilities().containsKey(CAPABILITY_KEY))) {
-            Field f = findField(e.getObject().getClass(), MjBattery.class);
-            if (f != null) {
-                e.addCapability(CAPABILITY_KEY, new InsertionCapabilityProvider(f, (TileEntity) e.getObject()));
+    public void onCapability(AttachCapabilitiesEvent<TileEntity> e) {
+        Field f;
+        if ((e.getObject() instanceof TileBC_Neptune) && !(e.getCapabilities().containsKey(CAPABILITY_KEY))) {
+            if (e.getObject() instanceof TileEngineBase_BC8) {
+                e.addCapability(CAPABILITY_KEY, new EngineCapabilityProvider((TileEngineBase_BC8) e.getObject()));
+                return;
             }
+
+            f = findField(e.getObject().getClass(), MjBattery.class);
+            if (f != null)
+                e.addCapability(CAPABILITY_KEY, new InsertionCapabilityProvider(f, e.getObject()));
         }
     }
 }
