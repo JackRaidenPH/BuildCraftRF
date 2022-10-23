@@ -91,7 +91,7 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
     implementation fg.deobf('zone.rong:mixinbooter:5.0')
-    implementation fg.deobf('curse.maven:buildcraft-core-231305:3072640')
+    implementation fg.deobf('curse.maven:buildcraft-core-231305:3204464')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     testAnnotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
@@ -107,9 +107,7 @@ jar {
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : archivesBaseName,
                 "Implementation-Version"  : version,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-                "MixinConfigs": "mixins.${modid}.json",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
