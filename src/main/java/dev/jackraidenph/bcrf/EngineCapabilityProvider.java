@@ -1,6 +1,7 @@
 package dev.jackraidenph.bcrf;
 
 import buildcraft.lib.engine.TileEngineBase_BC8;
+import dev.jackraidenph.bcrf.mixins.EngineMixin;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -31,8 +32,12 @@ public class EngineCapabilityProvider implements ICapabilityProvider {
         if (te.getCurrentFacing() == null)
             return null;
 
-        if (capability == CapabilityEnergy.ENERGY && (facing == null || facing.equals(te.getCurrentFacing())))
-            return CapabilityEnergy.ENERGY.cast((IEnergyStorage) te);
+        if (capability == CapabilityEnergy.ENERGY) {
+            if (facing != null)
+                ((IRotationProvider) te).rotateToCapGetter(facing);
+            if (facing == null || facing.equals(te.getCurrentFacing()))
+                return CapabilityEnergy.ENERGY.cast((IEnergyStorage) te);
+        }
 
         return null;
     }
