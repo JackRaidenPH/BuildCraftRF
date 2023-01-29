@@ -1,12 +1,9 @@
 package dev.jackraidenph.bcrf.mixins;
 
-import buildcraft.api.mj.IMjReceiver;
 import buildcraft.lib.engine.TileEngineBase_BC8;
 import buildcraft.lib.tile.TileBC_Neptune;
-import dev.jackraidenph.bcrf.BuildCraftRF;
 import dev.jackraidenph.bcrf.IRotationProvider;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -88,8 +85,9 @@ public abstract class EngineMixin extends TileBC_Neptune implements IEnergyStora
     @Inject(at = @At("HEAD"), method = "isFacingReceiver", remap = false, cancellable = true)
     public void isFacingReceiverInjector(EnumFacing dir, CallbackInfoReturnable<Boolean> cir) {
         TileEntity tile = this.getWorld().getTileEntity(this.getPos().offset(dir));
-
-        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, dir.getOpposite()))
+        if (tile instanceof TileEngineBase_BC8)
+            cir.setReturnValue(false);
+        else if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, dir.getOpposite()))
             cir.setReturnValue(true);
     }
 
@@ -131,7 +129,7 @@ public abstract class EngineMixin extends TileBC_Neptune implements IEnergyStora
 
     @Override
     public void rotateToCapGetter(EnumFacing facing) {
-        if(currentDirection != null && isFacingReceiver(currentDirection))
+        if (currentDirection != null && isFacingReceiver(currentDirection))
             return;
 
         currentDirection = facing;
