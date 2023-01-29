@@ -31,7 +31,7 @@ fancyGradle {
 }
 
 
-version = '2.1.2'
+version = '2.1.3'
 String modid = 'bcrf'
 group = "dev.jackraidenph.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'BuildCraftRF'
